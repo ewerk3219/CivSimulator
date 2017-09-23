@@ -1,0 +1,11 @@
+Map outline:
+
+Map (Level Container):
+	- Map data container global information and global modifiers.
+		- Time of the day
+
+	Level:
+		ground Layer
+			- a lightweight description of the ground
+			- provides and image of a color for which to be drawn
+			- holds a terrain properties object
