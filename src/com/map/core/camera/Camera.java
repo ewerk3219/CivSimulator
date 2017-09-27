@@ -1,4 +1,4 @@
-package com.map.camera;
+package com.map.core.camera;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -7,6 +7,13 @@ import javax.swing.JPanel;
 
 import com.map.core.SimMap;
 
+/**
+ * Each viewer gets only one camera that cannot be changed, for simplicity.
+ * 
+ * @author Eric
+ *
+ * 
+ */
 public class Camera {
 
 	private JPanel drawingPanel;
@@ -15,18 +22,32 @@ public class Camera {
 	public float renderX, renderY;
 	public int standardUnit;
 
-	public Camera(JPanel drawingPanel) {
-		this.drawingPanel = drawingPanel;
-		Rectangle clippingRegion = new Rectangle(0, 0, drawingPanel.getWidth(),
-				drawingPanel.getHeight());
-		this.drawingPanel.getGraphics().setClip(clippingRegion);
+	public Camera() {
 		renderGrid = true;
 		renderX = 0;
 		renderY = 0;
 		standardUnit = 16;
 	}
 
+	public void switchToPanel(JPanel drawingPanel) {
+		this.drawingPanel = drawingPanel;
+		Rectangle clippingRegion = new Rectangle(0, 0, drawingPanel.getWidth(),
+				drawingPanel.getHeight());
+		this.drawingPanel.getGraphics().setClip(clippingRegion);
+	}
+
+	/**
+	 * Must use the switchToPanel method before using
+	 * 
+	 * @param map
+	 *            The map to be rendered
+	 * @throws IllegalStateException
+	 *             If a JPanel hasn't been switched to yet
+	 */
 	public void render(SimMap map) {
+		if (this.drawingPanel == null) {
+			throw new IllegalArgumentException();
+		}
 		Graphics g = drawingPanel.getGraphics();
 		if (renderGrid) {
 			renderGrid(g);

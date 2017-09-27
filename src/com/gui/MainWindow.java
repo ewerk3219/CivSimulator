@@ -8,12 +8,11 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.JFrame;
 
-import com.SimulatorLoop;
+import com.Simulation;
 
 public class MainWindow {
 
-	private JFrame frame;
-	private SimulatorLoop looper;
+	private static JFrame frame;
 
 	/**
 	 * Launch the application.
@@ -22,32 +21,26 @@ public class MainWindow {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainWindow window = new MainWindow();
-					window.frame.setVisible(true);
+					initialize();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public MainWindow() {
-		initialize();
+		System.out.println("pups are cute");
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private static void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("res/crown.png"));
+		frame.setIconImage(
+				Toolkit.getDefaultToolkit().getImage("res/crown.png"));
 		frame.setBounds(100, 100, 1200, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setMinimumSize(new Dimension(400, 400));
-		frame.setContentPane(new SimViewerPanel());
+		frame.setContentPane(new SimulationPanel());
 		frame.addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
 				Dimension currentDim = frame.getSize();
@@ -61,6 +54,32 @@ public class MainWindow {
 				frame.setSize(currentDim);
 			}
 		});
+		frame.setVisible(true);
+	}
+
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	private static void sleepFor(long millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void run() {
+		sleepFor(10000);
+		Simulation simulation = new Simulation(
+				(SimulationPanel) frame.getContentPane());
+		while (true) {
+			simulation.runTurn();
+			sleepFor(100);
+		}
+
 	}
 
 }
