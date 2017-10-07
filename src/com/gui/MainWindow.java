@@ -25,9 +25,15 @@ public class MainWindow {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+
+				while (true) {
+					sleepFor(1000);
+					SimulationPanel simulationPanel = (SimulationPanel) frame
+							.getContentPane();
+					simulationPanel.simulation.runTurn();
+				}
 			}
 		});
-		System.out.println("pups are cute");
 	}
 
 	/**
@@ -69,17 +75,4 @@ public class MainWindow {
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-	public void run() {
-		sleepFor(10000);
-		Simulation simulation = new Simulation(
-				(SimulationPanel) frame.getContentPane());
-		while (true) {
-			simulation.runTurn();
-			sleepFor(100);
-		}
-
-	}
-
 }
