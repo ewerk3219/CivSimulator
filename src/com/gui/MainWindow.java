@@ -28,8 +28,7 @@ public class MainWindow {
 
 				while (true) {
 					sleepFor(1000);
-					SimulationPanel simulationPanel = (SimulationPanel) frame
-							.getContentPane();
+					SimulationPanel simulationPanel = (SimulationPanel) frame.getContentPane();
 					simulationPanel.simulation.runTurn();
 				}
 			}
@@ -41,8 +40,7 @@ public class MainWindow {
 	 */
 	private static void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(
-				Toolkit.getDefaultToolkit().getImage("res/crown.png"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("res/crown.png"));
 		frame.setBounds(100, 100, 1200, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setMinimumSize(new Dimension(400, 400));
@@ -60,6 +58,7 @@ public class MainWindow {
 				frame.setSize(currentDim);
 			}
 		});
+		frame.pack();
 		frame.setVisible(true);
 	}
 

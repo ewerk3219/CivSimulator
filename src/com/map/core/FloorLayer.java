@@ -20,10 +20,9 @@ public class FloorLayer {
 	}
 
 	public void defaultInitNullTiles() {
-		System.out.println(
-				"x : " + floorGrid[0].length + ", y : " + floorGrid.length);
-		for (int x = 0; x < floorGrid[0].length; x++) {
-			for (int y = 0; y < floorGrid.length; y++) {
+		System.out.println("x : " + floorGrid[0].length + ", y : " + floorGrid.length);
+		for (int x = 0; x < floorGrid.length; x++) {
+			for (int y = 0; y < floorGrid[0].length; y++) {
 				floorGrid[x][y] = new FloorTile(Color.MAGENTA);
 			}
 		}

@@ -1,7 +1,6 @@
 package com;
 
 import com.gui.SimViewerPanel;
-import com.gui.SimulationPanel;
 import com.map.core.SimMap;
 
 public class Simulation {
@@ -19,11 +18,12 @@ public class Simulation {
 		this.viewer = viewer;
 		// This MUST happen immediately afterwards
 		map = new SimMap(90, 60);
+		map.defaultInit();
 		viewer.setMapToDraw(map);
 	}
 
 	public void runTurn() {
 		// update entities here
-		viewer.paint(viewer.getGraphics());
+		viewer.drawScene();
 	}
 }
