@@ -14,16 +14,12 @@ public class Simulation {
 	 */
 	public SimViewerPanel viewer;
 
-	public Simulation(SimViewerPanel viewer) {
-		this.viewer = viewer;
-		// This MUST happen immediately afterwards
+	public Simulation() {
 		map = new SimMap(90, 60);
 		map.defaultInit();
-		viewer.setMapToDraw(map);
 	}
 
 	public void runTurn() {
 		// update entities here
-		viewer.drawScene();
 	}
 }

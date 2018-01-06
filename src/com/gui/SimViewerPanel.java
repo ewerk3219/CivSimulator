@@ -20,6 +20,8 @@ public class SimViewerPanel extends JPanel {
 	public float renderX, renderY;
 	public int standardUnit;
 
+	public boolean shouldPaint = false;
+
 	public SimViewerPanel() {
 		renderGrid = true;
 		renderX = 0;
@@ -36,15 +38,13 @@ public class SimViewerPanel extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		renderFloor(g, simMap);
-		if (renderGrid) {
-			renderGrid(g);
+		if (shouldPaint) {
+			System.out.println("Repainting");
+			renderFloor(g, simMap);
+			if (renderGrid) {
+				renderGrid(g);
+			}
 		}
-	}
-
-	public void drawScene() {
-		paintComponent(this.getGraphics());
 	}
 
 	/**
