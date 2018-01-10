@@ -5,6 +5,8 @@ import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.Panel;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -32,12 +34,14 @@ public class MainWindow extends JFrame {
 
 	public static final Dimension MAIN_WINDOW_SIZE = new Dimension(800, 600);
 	public static final Dimension BUTTON_MIN = new Dimension(25, 15);
-	public static final Dimension BUTTON_PREF = new Dimension(50, 20);
-	public static final Dimension BUTTON_MAX = new Dimension(60, 30);
+	public static final Dimension BUTTON_PREF = new Dimension(60, 20);
+	public static final Dimension BUTTON_MAX = new Dimension(80, 30);
 
 	public static SimViewerPanel viewer;
+	public static Simulation sim;
 
 	public MainWindow(Simulation sim) {
+		this.sim = sim;
 		this.setSize(MAIN_WINDOW_SIZE);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("res/crown.png"));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -95,11 +99,27 @@ public class MainWindow extends JFrame {
 		actionBar.setLayout(new BoxLayout(actionBar, BoxLayout.Y_AXIS));
 		contentPanel.add(actionBar, BorderLayout.EAST);
 
-		Button runButton = new Button("Run Sim");
-		runButton.setMinimumSize(BUTTON_MIN);
-		runButton.setPreferredSize(BUTTON_PREF);
-		runButton.setMaximumSize(BUTTON_MAX);
-		actionBar.add(runButton);
+		Button toggleRunButton = new Button("Pause Sim");
+		toggleRunButton.setMinimumSize(BUTTON_MIN);
+		toggleRunButton.setPreferredSize(BUTTON_PREF);
+		toggleRunButton.setMaximumSize(BUTTON_MAX);
+		actionBar.add(toggleRunButton);
+		toggleRunButton.addActionListener(new ActionListener() {
+			/**
+			 * Toggles the run/pause mechanic with the simulator. Should not
+			 * pause rendering or effect anything else.
+			 */
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sim.setPaused(!sim.isPaused());
+				if (sim.isPaused()) {
+					toggleRunButton.setLabel("Run Sim");
+				} else {
+					toggleRunButton.setLabel("Pause Sim");
+				}
+			}
+
+		});
 
 		Button fluffButton = new Button("Fluff");
 		fluffButton.setMinimumSize(BUTTON_MIN);
@@ -137,8 +157,8 @@ public class MainWindow extends JFrame {
 				timer.tick();
 				// System.out.println(timer.getFPS());
 
-				input();
-				// update();
+				// input();
+				update();
 
 				// sleep
 				long wake = lastTick + sleep;
@@ -151,7 +171,7 @@ public class MainWindow extends JFrame {
 		}
 	}
 
-	public static void input() {
-
+	private static void update() {
+		sim.runTurn();
 	}
 }

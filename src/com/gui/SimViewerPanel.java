@@ -1,14 +1,14 @@
 package com.gui;
 
 import java.awt.Graphics;
+
 import javax.swing.JPanel;
+
 import com.map.core.SimMap;
+import com.util.sprites.SpriteSheet;
 
 public class SimViewerPanel extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5457420362972555491L;
 
 	/**
@@ -21,6 +21,11 @@ public class SimViewerPanel extends JPanel {
 	public int standardUnit;
 
 	public boolean shouldPaint = false;
+
+	// debugging code TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
+	// TEST TEST TEST
+	private SpriteSheet sheet = new SpriteSheet("res/TileSets/TerrainTiles.png", 16, 16);
+	// REMOVE THIS REMOVE THIS REMOVE THIS OMG OMG OMG TEST TEST
 
 	public SimViewerPanel() {
 		renderGrid = true;
@@ -41,6 +46,15 @@ public class SimViewerPanel extends JPanel {
 		if (shouldPaint) {
 			System.out.println("Repainting");
 			renderFloor(g, simMap);
+
+			// OMG THIS IS TEST CODE -------------------------------------------
+			for (int x = 0; x < sheet.getSpritesAlongX(); x++) {
+				for (int y = 0; y < sheet.getSpritesAlongY(); y++) {
+					g.drawImage(sheet.getSprite(x, y), x * sheet.getSpriteWidth() + 5 * x,
+							y * sheet.getSpriteHeight() + 5 * y, null);
+				}
+			}
+			// TEST CODE TEST CODE TEST CODE TEST CODE -------------------------
 			if (renderGrid) {
 				renderGrid(g);
 			}

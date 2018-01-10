@@ -8,6 +8,8 @@ public class Simulation {
 	 * The actual map containing information of the terrain.
 	 */
 	public SimMap map;
+	private boolean isPaused = false;
+
 	/**
 	 * The viewer for the simulation where everything is displayed. Pointer here
 	 * just to make calls easier.
@@ -19,7 +21,17 @@ public class Simulation {
 		map.defaultInit();
 	}
 
+	public boolean isPaused() {
+		return isPaused;
+	}
+
+	public void setPaused(boolean isPaused) {
+		this.isPaused = isPaused;
+	}
+
 	public void runTurn() {
-		// update entities here
+		if (isPaused) {
+			// run turn
+		}
 	}
 }

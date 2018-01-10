@@ -30,7 +30,6 @@ public class ViewerMovement implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("press!");
 		char key = e.getKeyChar();
 		if (key == 'w') {
 			viewer.renderY -= traversalSpeed;
