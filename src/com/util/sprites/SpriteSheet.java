@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
  *         images.
  */
 public class SpriteSheet {
-
+	private BufferedImage originalSpriteSheet;
 	private int spritesAlongX;
 	private int spritesAlongY;
 	private BufferedImage[][] spriteArray;
@@ -49,6 +49,7 @@ public class SpriteSheet {
 						spriteHeight);
 			}
 		}
+		this.originalSpriteSheet = spriteImage;
 	}
 
 	public int getSpritesAlongX() {
@@ -65,6 +66,24 @@ public class SpriteSheet {
 
 	public int getSpriteHeight() {
 		return spriteArray[0][0].getHeight();
+	}
+
+	/**
+	 * 
+	 * @param coord
+	 *            Contains the coordinates of a given sprite.
+	 * @return Returns either a standard sized sprite or a large sized sprite
+	 *         based on whether the SpriteCoordinates given were given two pairs
+	 *         of x and y coordinates.
+	 */
+	public Image getSprite(SpriteCoordinates coord) {
+		if (coord.isSingle()) {
+			return getSprite(coord.getX1(), coord.getY1());
+		} else {
+			return this.originalSpriteSheet.getSubimage(coord.getX1(), coord.getY1(), coord.getX2() - coord.getX1(),
+					coord.getY2() - coord.getY1());
+
+		}
 	}
 
 	/**

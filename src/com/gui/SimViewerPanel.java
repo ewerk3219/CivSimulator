@@ -1,11 +1,12 @@
 package com.gui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import com.map.core.SimMap;
-import com.util.sprites.SpriteSheet;
 
 public class SimViewerPanel extends JPanel {
 
@@ -14,7 +15,6 @@ public class SimViewerPanel extends JPanel {
 	/**
 	 * The renderer for this viewer
 	 */
-	private SimMap simMap;
 	private boolean renderGrid;
 
 	public float renderX, renderY;
@@ -22,39 +22,22 @@ public class SimViewerPanel extends JPanel {
 
 	public boolean shouldPaint = false;
 
-	// debugging code TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST
-	// TEST TEST TEST
-	private SpriteSheet sheet = new SpriteSheet("res/TileSets/TerrainTiles.png", 16, 16);
-	// REMOVE THIS REMOVE THIS REMOVE THIS OMG OMG OMG TEST TEST
-
 	public SimViewerPanel() {
-		renderGrid = true;
+		renderGrid = false;
 		renderX = 0;
 		renderY = 0;
 		standardUnit = 16;
+		this.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
 	}
 
 	public void setRenderGrid(boolean renderGrid) {
 		this.renderGrid = renderGrid;
 	}
 
-	public void setMapToDraw(SimMap simMap) {
-		this.simMap = simMap;
-	}
-
 	public void paintComponent(Graphics g) {
 		if (shouldPaint) {
 			System.out.println("Repainting");
-			renderFloor(g, simMap);
-
-			// OMG THIS IS TEST CODE -------------------------------------------
-			for (int x = 0; x < sheet.getSpritesAlongX(); x++) {
-				for (int y = 0; y < sheet.getSpritesAlongY(); y++) {
-					g.drawImage(sheet.getSprite(x, y), x * sheet.getSpriteWidth() + 5 * x,
-							y * sheet.getSpriteHeight() + 5 * y, null);
-				}
-			}
-			// TEST CODE TEST CODE TEST CODE TEST CODE -------------------------
+			renderFloor(g, MainWindow.sim.map);
 			if (renderGrid) {
 				renderGrid(g);
 			}
@@ -72,8 +55,8 @@ public class SimViewerPanel extends JPanel {
 	private void renderFloor(Graphics g, SimMap map) {
 		for (int x = (int) renderX; x < map.level.width; x++) {
 			for (int y = (int) renderY; y < map.level.height; y++) {
-				g.setColor(map.level.floorLayer.floorGrid[x][y].color);
-				g.fillRect(x * standardUnit, y * standardUnit, standardUnit, standardUnit);
+				g.drawImage(MainWindow.sim.map.level.floorLayer.floorGrid[x][y].terrainData.getTerrainImage(),
+						x * standardUnit, y * standardUnit, standardUnit, standardUnit, null);
 			}
 		}
 	}

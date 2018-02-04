@@ -1,12 +1,16 @@
 package com.map.core;
 
-import java.awt.Color;
+import com.util.sprites.TerrainData;
 
 public class FloorTile {
 
-	public Color color;
+	public TerrainData terrainData;
 
-	public FloorTile(Color color) {
-		this.color = color;
+	public FloorTile(TerrainData terrainData) {
+		this.terrainData = terrainData;
+	}
+
+	public TerrainData getTerrainData() {
+		return this.terrainData;
 	}
 }

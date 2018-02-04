@@ -2,6 +2,8 @@ package com.map.core;
 
 import java.awt.Color;
 
+import com.util.sprites.TerrainType;
+
 /**
  * Describes the floor of a level.
  * 
@@ -23,7 +25,7 @@ public class FloorLayer {
 		System.out.println("x : " + floorGrid[0].length + ", y : " + floorGrid.length);
 		for (int x = 0; x < floorGrid.length; x++) {
 			for (int y = 0; y < floorGrid[0].length; y++) {
-				floorGrid[x][y] = new FloorTile(Color.MAGENTA);
+				floorGrid[x][y] = new FloorTile(TerrainType.getTerrainDataCopy("Grass"));
 			}
 		}
 	}
