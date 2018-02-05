@@ -34,7 +34,7 @@ public class DesignerPanel extends JPanel {
 	// you were going to make a panel that has a scroll bar and a list of
 	// predefined tiles (grass, stone, iron ore) that all have their own images
 	// and characteristics from their sprite sheet and predefined data
-	public DesignerPanel(SimViewerPanel viewer, Simulation sim) {
+	public DesignerPanel(SimViewerPanel viewer) {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		selectedTerrain = -1; // dummy value
 		buildMode = false;

@@ -11,6 +11,7 @@ public class SimMap {
 
 	public SimMap(int width, int height) {
 		level = new Level(width, height);
+		defaultInit();
 	}
 
 	public void defaultInit() {

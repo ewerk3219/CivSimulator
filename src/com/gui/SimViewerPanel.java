@@ -7,6 +7,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import com.map.core.SimMap;
+import com.util.sprites.TerrainData;
 
 public class SimViewerPanel extends JPanel {
 
@@ -53,10 +54,15 @@ public class SimViewerPanel extends JPanel {
 	 *            Map holding the floor to be drawn
 	 */
 	private void renderFloor(Graphics g, SimMap map) {
-		for (int x = (int) renderX; x < map.level.width; x++) {
-			for (int y = (int) renderY; y < map.level.height; y++) {
-				g.drawImage(MainWindow.sim.map.level.floorLayer.floorGrid[x][y].terrainData.getTerrainImage(),
-						x * standardUnit, y * standardUnit, standardUnit, standardUnit, null);
+		g.clearRect(0, 0, (int) this.getWidth(), (int) this.getHeight());
+		for (int gridX = 0; gridX < map.level.width; gridX++) {
+			for (int gridY = 0; gridY < map.level.height; gridY++) {
+				TerrainData tile = MainWindow.sim.map.level.floorLayer.floorGrid[gridX][gridY].terrainData;
+				int x = (int) (gridX * standardUnit + renderX);
+				int y = (int) (gridY * standardUnit + renderY);
+				if (g.getClip().contains(x, y)) {
+					g.drawImage(tile.getTerrainImage(), x, y, standardUnit, standardUnit, null);
+				}
 			}
 		}
 	}

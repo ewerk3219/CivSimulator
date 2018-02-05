@@ -9,15 +9,13 @@ import java.awt.Panel;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.Format;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -142,9 +140,41 @@ public class MainWindow extends JFrame {
 
 		});
 
-		DesignerPanel designPanel = new DesignerPanel(viewer, sim);
+		DesignerPanel designPanel = new DesignerPanel(viewer);
 		contentPanel.add(designPanel, BorderLayout.WEST);
 		this.pack();
+		// Setting the clipping area of the viewer
+		viewer.getGraphics().setClip(-viewer.standardUnit, -viewer.standardUnit,
+				viewer.getWidth() + viewer.standardUnit * 2, viewer.getHeight() + viewer.standardUnit * 2);
+		// Reset the clipping area when the window is resized
+		viewer.addComponentListener(new ComponentListener() {
+
+			@Override
+			public void componentResized(ComponentEvent e) {
+				viewer.getGraphics().setClip(-viewer.standardUnit, -viewer.standardUnit,
+						viewer.getWidth() + viewer.standardUnit * 2, viewer.getHeight() + viewer.standardUnit * 2);
+
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void componentShown(ComponentEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void componentHidden(ComponentEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
 		// So the sim starts with keyboard focus for the main window
 		viewer.requestFocusInWindow();
 
@@ -215,6 +245,7 @@ public class MainWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sim.map = new SimMap(Integer.parseInt(mapWidth.getText()), Integer.parseInt(mapHeight.getText()));
+				viewer.repaint();
 				newMapFrame.setVisible(false);
 				newMapFrame.dispose(); // get rid of this panel now
 			}
