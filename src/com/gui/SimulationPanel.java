@@ -19,6 +19,7 @@ public class SimulationPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 5457420362972555491L;
 	public Simulation simulation;
+	public SimViewerPanel viewer;
 
 	/**
 	 * Create the panel.
@@ -41,11 +42,12 @@ public class SimulationPanel extends JPanel {
 		optionBar.add(stopButton);
 
 		// 4
-		SimViewerPanel mapViewer = new SimViewerPanel();
+		simulation = new Simulation();
+		SimViewerPanel mapViewer = new SimViewerPanel(simulation);
 		mapViewer.setBackground(Color.LIGHT_GRAY);
 		mapViewer.setMinimumSize(new Dimension(300, 300));
 		add(mapViewer, BorderLayout.CENTER);
-		simulation = new Simulation(mapViewer);
+		viewer = mapViewer;
 
 		// 5
 		JMenuBar menuBar = new JMenuBar();

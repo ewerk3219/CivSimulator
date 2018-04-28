@@ -13,6 +13,7 @@ import com.Simulation;
 public class MainWindow {
 
 	private static JFrame frame;
+	private static SimulationPanel simPanel;
 
 	/**
 	 * Launch the application.
@@ -25,15 +26,15 @@ public class MainWindow {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
-				while (true) {
-					sleepFor(1000);
-					SimulationPanel simulationPanel = (SimulationPanel) frame
-							.getContentPane();
-					simulationPanel.simulation.runTurn();
-				}
 			}
 		});
+		sleepFor(1000);
+		boolean keepGoing = true;
+		while (keepGoing) {
+			simPanel.simulation.runTurn();
+			updateMapViewer();
+			sleepFor(40);
+		}
 	}
 
 	/**
@@ -46,7 +47,8 @@ public class MainWindow {
 		frame.setBounds(100, 100, 1200, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setMinimumSize(new Dimension(400, 400));
-		frame.setContentPane(new SimulationPanel());
+		simPanel = new SimulationPanel();
+		frame.setContentPane(simPanel);
 		frame.addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
 				Dimension currentDim = frame.getSize();
@@ -67,11 +69,22 @@ public class MainWindow {
 		return frame;
 	}
 
+	private static void updateMapViewer() {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				SimulationPanel simulationPanel = (SimulationPanel) frame
+						.getContentPane();
+				SimViewerPanel viewer = simulationPanel.viewer;
+				simulationPanel.simulation.runTurn();
+				viewer.paint(viewer.getGraphics());
+			}
+		});
+	}
+
 	private static void sleepFor(long millis) {
 		try {
 			Thread.sleep(millis);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -1,7 +1,11 @@
 package com.gui;
 
+import java.awt.Color;
 import java.awt.Graphics;
+
 import javax.swing.JPanel;
+
+import com.Simulation;
 import com.map.core.SimMap;
 
 public class SimViewerPanel extends JPanel {
@@ -14,13 +18,14 @@ public class SimViewerPanel extends JPanel {
 	/**
 	 * The renderer for this viewer
 	 */
-	private SimMap simMap;
+	private Simulation simulation;
 	private boolean renderGrid;
 
 	public float renderX, renderY;
 	public int standardUnit;
 
-	public SimViewerPanel() {
+	public SimViewerPanel(Simulation simulation) {
+		this.simulation = simulation;
 		renderGrid = true;
 		renderX = 0;
 		renderY = 0;
@@ -29,10 +34,6 @@ public class SimViewerPanel extends JPanel {
 
 	public void setRenderGrid(boolean renderGrid) {
 		this.renderGrid = renderGrid;
-	}
-
-	public void setMapToDraw(SimMap simMap) {
-		this.simMap = simMap;
 	}
 
 	/**
@@ -45,11 +46,12 @@ public class SimViewerPanel extends JPanel {
 	 */
 	@Override
 	public void paint(Graphics g) {
-		if (simMap == null) {
+		if (simulation.map == null) {
 			throw new IllegalStateException("Need to initialize simMap first");
 		}
-		renderFloor(g, simMap);
+		renderFloor(g, simulation.map);
 		if (renderGrid) {
+			g.setColor(Color.BLACK);
 			renderGrid(g);
 		}
 	}

@@ -4,26 +4,25 @@ import com.gui.SimViewerPanel;
 import com.gui.SimulationPanel;
 import com.map.core.SimMap;
 
+/**
+ * A Simulation will have everything it needs to simulate the separate elements
+ * that will be simulated at each tic or turn
+ * 
+ * @author Eric
+ *
+ */
 public class Simulation {
 	/**
 	 * The actual map containing information of the terrain.
 	 */
 	public SimMap map;
-	/**
-	 * The viewer for the simulation where everything is displayed. Pointer here
-	 * just to make calls easier.
-	 */
-	public SimViewerPanel viewer;
 
-	public Simulation(SimViewerPanel viewer) {
-		this.viewer = viewer;
-		// This MUST happen immediately afterwards
+	public Simulation() {
 		map = new SimMap(90, 60);
-		viewer.setMapToDraw(map);
+		map.defaultInit();
 	}
 
 	public void runTurn() {
 		// update entities here
-		viewer.paint(viewer.getGraphics());
 	}
 }
