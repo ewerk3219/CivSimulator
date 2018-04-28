@@ -26,6 +26,15 @@ public class MainWindow {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+<<<<<<< HEAD
+=======
+
+				while (true) {
+					sleepFor(1000);
+					SimulationPanel simulationPanel = (SimulationPanel) frame.getContentPane();
+					simulationPanel.simulation.runTurn();
+				}
+>>>>>>> 3415391987dd3345e8bab5eea4f4cf97751dc622
 			}
 		});
 		sleepFor(1000);
@@ -42,8 +51,7 @@ public class MainWindow {
 	 */
 	private static void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(
-				Toolkit.getDefaultToolkit().getImage("res/crown.png"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("res/crown.png"));
 		frame.setBounds(100, 100, 1200, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setMinimumSize(new Dimension(400, 400));
@@ -62,6 +70,7 @@ public class MainWindow {
 				frame.setSize(currentDim);
 			}
 		});
+		frame.pack();
 		frame.setVisible(true);
 	}
 

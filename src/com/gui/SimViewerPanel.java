@@ -36,6 +36,7 @@ public class SimViewerPanel extends JPanel {
 		this.renderGrid = renderGrid;
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Must use the switchToPanel method before using
 	 * 
@@ -50,10 +51,23 @@ public class SimViewerPanel extends JPanel {
 			throw new IllegalStateException("Need to initialize simMap first");
 		}
 		renderFloor(g, simulation.map);
+=======
+	public void setMapToDraw(SimMap simMap) {
+		this.simMap = simMap;
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		renderFloor(g, simMap);
+>>>>>>> 3415391987dd3345e8bab5eea4f4cf97751dc622
 		if (renderGrid) {
 			g.setColor(Color.BLACK);
 			renderGrid(g);
 		}
+	}
+
+	public void drawScene() {
+		paintComponent(this.getGraphics());
 	}
 
 	/**
@@ -68,8 +82,7 @@ public class SimViewerPanel extends JPanel {
 		for (int x = (int) renderX; x < map.level.width; x++) {
 			for (int y = (int) renderY; y < map.level.height; y++) {
 				g.setColor(map.level.floorLayer.floorGrid[x][y].color);
-				g.fillRect(x * standardUnit, y * standardUnit, standardUnit,
-						standardUnit);
+				g.fillRect(x * standardUnit, y * standardUnit, standardUnit, standardUnit);
 			}
 		}
 	}

@@ -30,7 +30,9 @@ public class SimulationPanel extends JPanel {
 		// 1
 		JPanel optionBar = new JPanel();
 		optionBar.setBackground(Color.GRAY);
-		optionBar.setMaximumSize(new Dimension(200, 3000));
+		optionBar.setMinimumSize(new Dimension(100, 300));
+		optionBar.setPreferredSize(new Dimension(150, 500));
+		optionBar.setMaximumSize(new Dimension(200, 1920));
 		add(optionBar, BorderLayout.EAST);
 
 		// 2
@@ -46,6 +48,8 @@ public class SimulationPanel extends JPanel {
 		SimViewerPanel mapViewer = new SimViewerPanel(simulation);
 		mapViewer.setBackground(Color.LIGHT_GRAY);
 		mapViewer.setMinimumSize(new Dimension(300, 300));
+		mapViewer.setPreferredSize(new Dimension(800, 500));
+		mapViewer.setMaximumSize(new Dimension(1080, 1920));
 		add(mapViewer, BorderLayout.CENTER);
 		viewer = mapViewer;
 
