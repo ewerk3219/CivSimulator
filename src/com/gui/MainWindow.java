@@ -22,12 +22,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import com.Simulation;
 import com.input.MouseClickFocusTransfer;
 import com.input.ViewerMovement;
 import com.map.core.SimMap;
 import com.util.SimTime;
+import java.awt.Font;
 
 public class MainWindow extends JFrame {
 
@@ -43,6 +45,12 @@ public class MainWindow extends JFrame {
 	public static final Dimension BUTTON_MIN = new Dimension(25, 15);
 	public static final Dimension BUTTON_PREF = new Dimension(60, 20);
 	public static final Dimension BUTTON_MAX = new Dimension(80, 30);
+	public static final Dimension MENU_BAR_PREF = new Dimension(800, 50);
+	public static final Dimension ACTION_PANEL_MIN = new Dimension(100, 100);
+	public static final Dimension ACTION_PANEL_PREF = new Dimension(140, 600);
+	public static final Dimension ACTION_PANEL_MAX = new Dimension(150, 1080);
+
+	public static final Font STANDARD_FONT = new Font("Corbel", Font.BOLD, 16);
 
 	// Action Commands
 	public static final String CREATE_NEW_MAP = "New Map";
@@ -52,7 +60,7 @@ public class MainWindow extends JFrame {
 	public static Simulation sim;
 
 	public MainWindow(Simulation sim) {
-		this.sim = sim;
+		MainWindow.sim = sim;
 		this.setSize(MAIN_WINDOW_SIZE);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage("res/crown.png"));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -92,29 +100,35 @@ public class MainWindow extends JFrame {
 		 */
 
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setPreferredSize(new Dimension(800, 30));
+		menuBar.setPreferredSize(MENU_BAR_PREF);
+		menuBar.putClientProperty("JComponent.sizeVariant", "large");
 		contentPanel.add(menuBar, BorderLayout.NORTH);
 
-		JMenu Map = new JMenu("Map\r\n");
-		menuBar.add(Map);
+		JMenu map = new JMenu("Map\r\n");
+		map.setFont(STANDARD_FONT);
+		map.setBackground(Color.WHITE);
+		map.putClientProperty("JComponent.sizeVariant", "large");
+		menuBar.add(map);
 
 		JMenuItem newMapItem = new JMenuItem("New Map\r\n");
+		newMapItem.setFont(STANDARD_FONT);
 		newMapItem.setActionCommand(MainWindow.CREATE_NEW_MAP);
 		newMapItem.addActionListener(mainWindowListener);
-		Map.add(newMapItem);
+		map.add(newMapItem);
 
 		JMenuItem loadMapItem = new JMenuItem("Load Map");
+		loadMapItem.setFont(STANDARD_FONT);
 		loadMapItem.addActionListener(mainWindowListener);
-		Map.add(loadMapItem);
+		map.add(loadMapItem);
 
 		/**
 		 * Action Bar setup
 		 */
 
 		JPanel actionBar = new JPanel();
-		actionBar.setMinimumSize(new Dimension(100, 100));
-		actionBar.setPreferredSize(new Dimension(125, 600));
-		actionBar.setMaximumSize(new Dimension(150, 1080));
+		actionBar.setMinimumSize(ACTION_PANEL_MIN);
+		actionBar.setPreferredSize(ACTION_PANEL_PREF);
+		actionBar.setMaximumSize(ACTION_PANEL_MAX);
 		actionBar.setLayout(new BoxLayout(actionBar, BoxLayout.Y_AXIS));
 		contentPanel.add(actionBar, BorderLayout.EAST);
 
@@ -145,14 +159,16 @@ public class MainWindow extends JFrame {
 		this.pack();
 		// Setting the clipping area of the viewer
 		viewer.getGraphics().setClip(-viewer.standardUnit, -viewer.standardUnit,
-				viewer.getWidth() + viewer.standardUnit * 2, viewer.getHeight() + viewer.standardUnit * 2);
+				viewer.getWidth() + viewer.standardUnit * 2,
+				viewer.getHeight() + viewer.standardUnit * 2);
 		// Reset the clipping area when the window is resized
 		viewer.addComponentListener(new ComponentListener() {
 
 			@Override
 			public void componentResized(ComponentEvent e) {
 				viewer.getGraphics().setClip(-viewer.standardUnit, -viewer.standardUnit,
-						viewer.getWidth() + viewer.standardUnit * 2, viewer.getHeight() + viewer.standardUnit * 2);
+						viewer.getWidth() + viewer.standardUnit * 2,
+						viewer.getHeight() + viewer.standardUnit * 2);
 
 			}
 
@@ -178,6 +194,7 @@ public class MainWindow extends JFrame {
 		// So the sim starts with keyboard focus for the main window
 		viewer.requestFocusInWindow();
 
+		SwingUtilities.updateComponentTreeUI(this);
 		this.addKeyListener(new ViewerMovement(viewer));
 		this.setVisible(true);
 	}
@@ -215,9 +232,10 @@ public class MainWindow extends JFrame {
 				submit.setMaximumSize(BUTTON_MAX);
 				// This will check for when the submit button is hit and do
 				// everything required afterward like closing this frame.
-				submit.addActionListener(new MapSubmitListener(mapWidth, mapHeight, newMapFrame));
+				submit.addActionListener(
+						new MapSubmitListener(mapWidth, mapHeight, newMapFrame));
 
-				newMapFrame.add(newMapPanel);
+				newMapFrame.getContentPane().add(newMapPanel);
 				newMapFrame.pack();
 				newMapPanel.add(mapWidth);
 				newMapPanel.add(mapHeight);
@@ -236,7 +254,8 @@ public class MainWindow extends JFrame {
 			private JTextField mapHeight;
 			private JFrame newMapFrame;
 
-			public MapSubmitListener(JTextField mapWidth, JTextField mapHeight, JFrame newMapFrame) {
+			public MapSubmitListener(JTextField mapWidth, JTextField mapHeight,
+					JFrame newMapFrame) {
 				this.mapWidth = mapWidth;
 				this.mapHeight = mapHeight;
 				this.newMapFrame = newMapFrame;
@@ -244,7 +263,8 @@ public class MainWindow extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sim.map = new SimMap(Integer.parseInt(mapWidth.getText()), Integer.parseInt(mapHeight.getText()));
+				sim.map = new SimMap(Integer.parseInt(mapWidth.getText()),
+						Integer.parseInt(mapHeight.getText()));
 				viewer.repaint();
 				newMapFrame.setVisible(false);
 				newMapFrame.dispose(); // get rid of this panel now
@@ -254,7 +274,8 @@ public class MainWindow extends JFrame {
 
 	}
 
-	public static final double ONE_SECOND = java.util.concurrent.TimeUnit.SECONDS.toNanos(1);
+	public static final double ONE_SECOND = java.util.concurrent.TimeUnit.SECONDS
+			.toNanos(1);
 	public static boolean runSim = true;
 
 	public static void runLoop(Simulation sim) {
